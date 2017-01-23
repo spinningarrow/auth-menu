@@ -1,5 +1,6 @@
+// Source: https://github.com/gbraad/gauth and
+// http://blog.tinisles.com/2011/10/google-authenticator-one-time-password-algorithm-in-javascript/
 var KeyUtilities = function(jsSHA) {
-
 	var dec2hex = function(s) {
 		return (s < 15.5 ? '0' : '') + Math.round(s).toString(16);
 	};
