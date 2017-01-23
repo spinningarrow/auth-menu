@@ -20,3 +20,4 @@ function createTray() {
 }
 
 app.on('ready', createTray)
+app.dock.hide()
