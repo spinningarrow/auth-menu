@@ -48,9 +48,6 @@ var KeyUtilities = function(jsSHA) {
 		}
 		var time = leftpad(dec2hex(Math.floor(epoch / 30)), 16, '0');
 
-		// external library for SHA functionality
-		// var hmacObj = new jsSHA(time, "HEX");
-		// var hmac = hmacObj.getHMAC(key, "HEX", "SHA-1", "HEX");
 		var shaObj = new jsSHA("SHA-1", "HEX");
         shaObj.setHMACKey(key, "HEX");
         shaObj.update(time);
@@ -65,7 +62,6 @@ var KeyUtilities = function(jsSHA) {
 		return (otp).substr(otp.length - 6, 6).toString();
 	};
 
-	// exposed functions
 	return {
 		generate: generate
 	};
