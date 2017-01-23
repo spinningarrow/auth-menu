@@ -13,7 +13,9 @@ function createTray() {
 	tray.on('click', _ => {
 		const contextMenu = Menu.buildFromTemplate([
 			{label: 'sahil@sahil.com', enabled: false},
-			{label: keyUtilities.generate(secret), click: _ => clipboard.writeText(keyUtilities.generate(secret))}
+			{label: keyUtilities.generate(secret), click: _ => clipboard.writeText(keyUtilities.generate(secret))},
+			{type: 'separator'},
+			{label: 'Quit', click() { app.quit() }}
 		])
 		tray.popUpContextMenu(contextMenu)
 	})
