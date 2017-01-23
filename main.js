@@ -53,7 +53,7 @@ function createTray() {
 			dialog.showErrorBox('Error loading data', error)
 			return
 		}
-		secrets = data
+		secrets = Array.isArray(data) ? data : []
 	})
 
 	tray.on('click', _ => {
