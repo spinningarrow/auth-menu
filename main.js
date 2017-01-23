@@ -5,6 +5,10 @@ const appIcon = require('./js/app-icon')
 const KeyUtilities = require('./js/key-utilities')
 const keyUtilities = new KeyUtilities(jsSHA)
 
+const APP_NAME = require('./package').name
+const APP_STORAGE_KEY = APP_NAME.toLowerCase()
+const APP_STORAGE_FILE_PATH = `${app.getPath('userData')}/storage/${APP_STORAGE_KEY}.json`
+
 function createMenu(secrets) {
 	const template = []
 
@@ -32,9 +36,9 @@ function createMenu(secrets) {
 		click() {
 			dialog.showMessageBox({
 				type: 'info',
-				title: 'Configure AuthMenu',
+				title: `Configure ${APP_NAME}`,
 				message: 'This feature is still being developed.',
-				detail: `For the time being, please manually edit the file at\n${app.getPath('userData')}/storage/authmenu.json`
+				detail: `For the time being, please manually edit the file at\n${APP_STORAGE_FILE_PATH}`
 			})
 		}
 	})
@@ -45,10 +49,10 @@ function createMenu(secrets) {
 
 function createTray() {
 	const tray = new Tray(appIcon)
-	tray.setToolTip('AuthMenu')
+	tray.setToolTip(APP_NAME)
 
 	let secrets = []
-	storage.get('authmenu', (error, data) => {
+	storage.get(APP_STORAGE_KEY, (error, data) => {
 		if (error) {
 			dialog.showErrorBox('Error loading data', error)
 			return
