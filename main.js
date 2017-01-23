@@ -1,8 +1,8 @@
 const { app, Menu, MenuItem, Tray, nativeImage, clipboard, dialog } = require('electron')
 const jsSHA = require('jssha')
 const storage = require('electron-json-storage')
-const appIcon = require('./appIcon')
-const KeyUtilities = require('./KeyUtilities')
+const appIcon = require('./js/app-icon')
+const KeyUtilities = require('./js/key-utilities')
 const keyUtilities = new KeyUtilities(jsSHA)
 
 function createMenu(secrets) {
