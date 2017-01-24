@@ -4,7 +4,8 @@
   "description": "Google Authenticator in your menu bar",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package": "electron-packager . --platform=darwin --out=out"
   },
   "repository": "https://github.com/spinningarrow/auth-menu",
   "keywords": [
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "electron-json-storage": "^3.0.0",
+    "electron-packager": "^8.5.1",
     "jssha": "^2.2.0"
   }
 }
