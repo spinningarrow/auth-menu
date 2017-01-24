@@ -1,4 +1,4 @@
-const { app, Menu, MenuItem, Tray, nativeImage, clipboard, dialog } = require('electron')
+const { app, Menu, MenuItem, Tray, nativeImage, clipboard, dialog, shell } = require('electron')
 const jsSHA = require('jssha')
 const storage = require('electron-json-storage')
 const appIcon = require('./js/app-icon')
@@ -34,11 +34,15 @@ function createMenu(secrets) {
 	template.push({
 		label: 'Configure…',
 		click() {
+			const isOpened = shell.openItem(APP_STORAGE_FILE_PATH)
+
+			if (isOpened) return
+
 			dialog.showMessageBox({
 				type: 'info',
 				title: `Configure ${APP_NAME}`,
-				message: 'This feature is still being developed.',
-				detail: `For the time being, please manually edit the file at\n${APP_STORAGE_FILE_PATH}`
+				message: 'There was a problem opening the configuration file',
+				detail: `Please manually edit the file at\n${APP_STORAGE_FILE_PATH}`
 			})
 		}
 	})
@@ -51,17 +55,29 @@ function createTray() {
 	const tray = new Tray(appIcon)
 	tray.setToolTip(APP_NAME)
 
-	let secrets = []
-	storage.get(APP_STORAGE_KEY, (error, data) => {
-		if (error) {
-			dialog.showErrorBox('Error loading data', error)
-			return
-		}
-		secrets = Array.isArray(data) ? data : []
-	})
-
 	tray.on('click', _ => {
-		tray.popUpContextMenu(createMenu(secrets))
+		storage.get(APP_STORAGE_KEY, (error, data) => {
+			if (error) {
+				dialog.showErrorBox('Error loading data', error)
+				return
+			}
+
+			if (!Array.isArray(data)) {
+				storage.set(APP_STORAGE_KEY, [
+					{
+						display: 'item title',
+						secretKey: 'xxxxxxxxxx'
+					}
+				], error => {
+					if (error) {
+						dialog.showErrorBox('Error creating config file', errro)
+					}
+				})
+				return
+			}
+
+			tray.popUpContextMenu(createMenu(data))
+		})
 	})
 
 	return tray
